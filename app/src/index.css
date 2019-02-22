@@ -1,0 +1,22 @@
+* {
+    box-sizing: border-box;
+}
+.layout {
+    display: flex;
+}
+
+.game {
+    border: 2px solid gray;
+    display: flex;
+    flex-direction: row;
+    width: 256px;
+    height: 256px;
+    flex-flow: row wrap;
+}
+
+.cell {
+    border: 1px solid lightgray;
+    background-color: aquamarine;
+    width: 12.5%;
+    height: 12.5%;
+}
