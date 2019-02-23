@@ -20,3 +20,8 @@
     width: 12.5%;
     height: 12.5%;
 }
+
+.cell:not(.visited):hover {
+    border: 1px solid #9d9d9d;
+    background-color: #6bffb1;
+}
