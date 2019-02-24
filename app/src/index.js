@@ -1,11 +1,11 @@
 
 class Game {
-    cells = [];
-    currentStep = 1;
-
     constructor(size) {
+        this.cells = [];
+        this.currentStep = 1;
         this.generateCells(size);
         this.cells[0].element.click();
+        document.querySelector('.reset').addEventListener('click', ()=> this.resetCells());
     }
 
     generateCells(size) {
@@ -23,6 +23,18 @@ class Game {
             this.cells.push(cell);
             i++;
         }
+    }
+
+    resetCells() {
+        console.log(this.cells);
+        this.cells.forEach((cell) => {
+            cell.isVisited = false;
+            cell.number = 0;
+            cell.element.textContent = '';
+            cell.element.className = 'cell'
+        });
+        this.currentStep = 1;
+        this.cells[0].element.click();
     }
 }
 
@@ -45,7 +57,7 @@ class Cell {
     }
 }
 
-(function component() {
+(function() {
     const game = new Game(8);
     const parent = document.querySelector('.game');
     game.cells.forEach(({ element }) => parent.appendChild(element));

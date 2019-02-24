@@ -3,15 +3,19 @@
 }
 .layout {
     display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    justify-content: space-around;
 }
 
 .game {
-    border: 2px solid gray;
+    border: 2px solid #434343;
     display: flex;
     flex-direction: row;
     width: 256px;
     height: 256px;
     flex-flow: row wrap;
+    margin-bottom: 20px;
 }
 
 .cell {
@@ -19,9 +23,15 @@
     background-color: aquamarine;
     width: 12.5%;
     height: 12.5%;
+    text-align: center;
+    padding-top: 5px;
 }
 
 .cell:not(.visited):hover {
     border: 1px solid #9d9d9d;
     background-color: #6bffb1;
+}
+
+.cell.visited {
+    background-color: lightgray;
 }
