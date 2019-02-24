@@ -3,6 +3,7 @@ class Game {
     constructor(size) {
         this.cells = [];
         this.currentStep = 1;
+        this.currentCellIndex = 0;
         this.generateCells(size);
         this.cells[0].element.click();
         document.querySelector('.reset').addEventListener('click', ()=> this.resetCells());
@@ -12,17 +13,43 @@ class Game {
         const cellsAmount = Math.pow(size, 2);
         let i = 0;
         while(i < cellsAmount) {
-            const cell = new Cell();
+            const cell = new Cell(i);
             cell.element.addEventListener('click', ()=> {
                 if (cell.isVisited) {
                     return;
                 }
-               cell.openCell(this.currentStep);
-               this.currentStep++;
+                this.cells[this.currentCellIndex].element.classList.remove('active');
+                this.checkOptions(cell.index);
+                cell.openCell(this.currentStep);
+                this.currentStep++;
+                this.currentCellIndex = cell.index;
             });
             this.cells.push(cell);
             i++;
         }
+    }
+
+    checkOptions(index) {
+        this.cells.forEach((el) => el.element.classList.remove('possible'));
+        const options = [-2, -1, 1, 2];
+        const rowLength = Math.sqrt(this.cells.length);
+        const columnIndex = index%rowLength;
+
+        options.forEach((baseIndex) => {
+            const additionalRightShift = Math.abs(baseIndex)%2+1;
+            const rightShift = rowLength * baseIndex + index + additionalRightShift;
+            
+            if (rightShift >= 0 && rightShift < this.cells.length && additionalRightShift+columnIndex < rowLength) {
+                this.cells[rightShift].element.classList.add('possible');
+            }
+
+            const additionalLeftShift = - Math.abs(baseIndex)%2-1;
+            const leftShift = rowLength * baseIndex + index + additionalLeftShift;
+
+            if (leftShift >= 0 && leftShift < this.cells.length && columnIndex+additionalLeftShift >= 0) {
+                this.cells[leftShift].element.classList.add('possible');
+            }
+        });
     }
 
     resetCells() {
@@ -43,16 +70,17 @@ class Cell {
     isVisited = false;
     number = 0;
 
-    constructor() {
-        console.log('created');
+    constructor(index) {
         this.element = document.createElement('div');
-        this.element.className = 'cell';
+        this.element.classList.add('cell');
+        this.index = index;
     }
 
     openCell(index) {
         this.isVisited = true;
         this.number = index;
-        this.element.className += ' visited';
+        this.element.classList.add('visited');
+        this.element.classList.add('active');
         this.element.innerText = this.number;
     }
 }

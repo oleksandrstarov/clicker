@@ -17,6 +17,7 @@
     height: 256px;
     flex-flow: row wrap;
     margin-bottom: 20px;
+    background-color: lightgray;
 }
 
 .cell {
@@ -26,12 +27,22 @@
     height: 12.5%;
     text-align: center;
     padding-top: 5px;
+    border-radius: 50%;
 }
 
 .cell:not(.visited):hover {
     background-color: #559bff;
+    cursor: pointer;
 }
 
 .cell.visited {
     background-color: lightgray;
+}
+
+.cell.active {
+    background-color: gray;
+}
+
+.cell.possible:not(.visited) {
+    background-color: #80537d;
 }
