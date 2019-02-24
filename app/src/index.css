@@ -1,5 +1,6 @@
 * {
     box-sizing: border-box;
+    font-family: Roboto, sans-serif;
 }
 .layout {
     display: flex;
@@ -20,7 +21,7 @@
 
 .cell {
     border: 1px solid lightgray;
-    background-color: aquamarine;
+    background-color: #61b8ff;
     width: 12.5%;
     height: 12.5%;
     text-align: center;
@@ -28,8 +29,7 @@
 }
 
 .cell:not(.visited):hover {
-    border: 1px solid #9d9d9d;
-    background-color: #6bffb1;
+    background-color: #559bff;
 }
 
 .cell.visited {
