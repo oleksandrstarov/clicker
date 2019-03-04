@@ -30,6 +30,7 @@
     border-radius: 50%;
 }
 
+.cell:not(.visited):hover,
 .cell:not(.visited):hover {
     background-color: #559bff;
     cursor: pointer;
@@ -44,5 +45,5 @@
 }
 
 .cell.possible:not(.visited) {
-    background-color: #80537d;
+    background-color: #009ff0;
 }

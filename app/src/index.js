@@ -5,6 +5,7 @@ class Game {
         this.currentStep = 1;
         this.currentCellIndex = 0;
         this.generateCells(size);
+        this.cells[0].element.classList.add('possible');
         this.cells[0].element.click();
         document.querySelector('.reset').addEventListener('click', ()=> this.resetCells());
     }
@@ -15,18 +16,25 @@ class Game {
         while(i < cellsAmount) {
             const cell = new Cell(i);
             cell.element.addEventListener('click', ()=> {
-                if (cell.isVisited) {
+                if (cell.isVisited || !cell.element.classList.contains('possible')) {
                     return;
                 }
                 this.cells[this.currentCellIndex].element.classList.remove('active');
                 this.checkOptions(cell.index);
                 cell.openCell(this.currentStep);
+                if (!this.hasMoreOptions()) {
+                  alert(`No more options left, current progress ${this.currentStep}`)
+                }
                 this.currentStep++;
                 this.currentCellIndex = cell.index;
             });
             this.cells.push(cell);
             i++;
         }
+    }
+
+    hasMoreOptions() {
+      return this.cells.some((cell) => cell.element.classList.contains('possible') && !cell.isVisited);
     }
 
     checkOptions(index) {
@@ -61,16 +69,16 @@ class Game {
             cell.element.className = 'cell'
         });
         this.currentStep = 1;
+        this.cells[0].element.classList.add('possible');
         this.cells[0].element.click();
     }
 }
 
 
 class Cell {
-    isVisited = false;
-    number = 0;
-
     constructor(index) {
+        this.isVisited = false;
+        this.number = 0;
         this.element = document.createElement('div');
         this.element.classList.add('cell');
         this.index = index;
