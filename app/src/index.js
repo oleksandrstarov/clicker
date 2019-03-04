@@ -1,13 +1,27 @@
 
+
+/**
+ * TODO
+ * Count steps,
+ * show best
+ * save data
+ * add styles
+ * add autosolver
+ * add check on possible to finish
+ *
+ * */
 class Game {
     constructor(size) {
+        this.solveArray = [];
+        this.isGameEnabled = true;
         this.cells = [];
         this.currentStep = 1;
         this.currentCellIndex = 0;
         this.generateCells(size);
         this.cells[0].element.classList.add('possible');
         this.cells[0].element.click();
-        document.querySelector('.reset').addEventListener('click', ()=> this.resetCells());
+        document.querySelector('.reset-btn').addEventListener('click', ()=> this.resetCells());
+        document.querySelector('.solve-btn').addEventListener('click', ()=> this.solveGame());
     }
 
     generateCells(size) {
@@ -19,6 +33,8 @@ class Game {
                 if (cell.isVisited || !cell.element.classList.contains('possible')) {
                     return;
                 }
+                console.log(this.currentStep);
+
                 this.cells[this.currentCellIndex].element.classList.remove('active');
                 this.checkOptions(cell.index);
                 cell.openCell(this.currentStep);
@@ -71,12 +87,36 @@ class Game {
         this.currentStep = 1;
         this.cells[0].element.classList.add('possible');
         this.cells[0].element.click();
+        this.isGameEnabled = true;
+    }
+
+    solveGame() {
+        this.isGameEnabled = false;
+        this.makeSolveStep();
+
+    }
+
+    makeSolveStep() {
+        if (this.isGameEnabled) {
+            return;
+        }
+        /*if (this.hasMoreOptions()) {
+            this.solveArray.push(this.cells.filter((cell) => cell.element.classList.contains('possible')));
+        } else if(this.solveArray.length) {
+            this.solveArray.pop().forEach(el => el.isAutosolveTried = false);
+
+        }*/
+        console.log('step', this.cells.filter((cell) => cell.element.classList.contains('possible') && !cell.isVisited)[0].index);
+        
+        this.cells.filter((cell) => cell.element.classList.contains('possible') && !cell.isVisited)[0].element.click();
+        setTimeout(() => this.makeSolveStep(), 300);
     }
 }
 
 
 class Cell {
     constructor(index) {
+        this.isAutosolveTried = false;
         this.isVisited = false;
         this.number = 0;
         this.element = document.createElement('div');
